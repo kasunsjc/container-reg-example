@@ -15,5 +15,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITGUB_PAT }}
           registry: ghcr.io
-          repository: kasunsjc/nginx-hello-world:${{ github.sha }}
+          repository: kasunsjc/nginx-hello-world
+          tag_with_ref: true
           dockerfile: Dockerfile
