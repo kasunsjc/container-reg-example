@@ -16,5 +16,5 @@ jobs:
           password: ${{ secrets.GITGUB_PAT }}
           registry: ghcr.io
           repository: kasunsjc/nginx-hello-world
-          tag_with_ref: true
+          tag_with_ref: false
           dockerfile: Dockerfile
