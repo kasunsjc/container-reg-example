@@ -18,3 +18,27 @@ jobs:
           repository: kasunsjc/nginx-hello-world
           tags: ${{ github.sha }}
           dockerfile: Dockerfile
+
+      # Set the target AKS cluster.
+      - uses: Azure/aks-set-context@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          cluster-name: aksdemocluster
+          resource-group: aksdemo
+
+      - uses: Azure/k8s-create-secret@v1
+        with:
+          container-registry-url: ghcr.io
+          container-registry-username: ${{ github.actor }}
+          container-registry-password: ${{ secrets.GITGUB_PAT }}
+          secret-name: k8s-secret
+
+      - uses: Azure/k8s-deploy@v1
+        with:
+          manifests: |
+            manifests/deployment.yaml
+            manifests/service.yaml
+          images: |
+            ghcr.io/kasunsjc/nginx-hello-world:${{ github.sha }}
+          imagepullsecrets: |
+            k8s-secret
